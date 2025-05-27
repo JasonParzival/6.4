@@ -33,8 +33,24 @@ EOL; // сформировали запрос
 
         $tmp_name = $_FILES['image']['tmp_name'];
         $name =  $_FILES['image']['name'];
-        move_uploaded_file($tmp_name, "../public/media/$name");
-        $image_url = "/media/$name"; // формируем ссылку без адреса сервера
+
+        if (!empty($name) && is_uploaded_file($tmp_name)) {
+            move_uploaded_file($tmp_name, "../public/media/$name");
+            $image_url = "/media/$name";
+        } else {
+            $sql =<<<EOL
+SELECT image FROM portal_types WHERE name = :name
+EOL;
+        
+            $query = $this->pdo->prepare($sql);
+            $query->bindValue("name", $_POST['type']);
+            $query->execute();
+
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            $typeId = $result['image'] ?? null;
+
+            $image_url = $typeId; 
+        }
 
         $sql = <<<EOL
 INSERT INTO portal_characters(title, description, type, info, image)

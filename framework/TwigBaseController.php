@@ -29,7 +29,7 @@ class TwigBaseController extends BaseController {
         ],
         [
             "title" => "Описание",
-            "url" => "info",
+            "url" => "info", 
         ]
     ];
     protected \Twig\Environment $twig; // ссылка на экземпляр twig, для рендернига

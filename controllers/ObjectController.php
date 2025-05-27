@@ -18,8 +18,10 @@ class ObjectController extends BasePortalTwigController {
                 break;
             default:
                 $this->template = "main_window_object.twig";
-                $this->temp = "";
+                $this->temp = ""; 
         }
+
+        $context['temp'] = $this->temp;
         parent::get($context);
     }
 
@@ -32,6 +34,7 @@ class ObjectController extends BasePortalTwigController {
         $query->execute(); 
         
         $context['title_objects'] = $query->fetch();
+        
 
         return $context;
     }
