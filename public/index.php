@@ -15,6 +15,7 @@
     require_once "../RestAPI/PortalRestController.php";
     require_once "../middlewares/LoginRequiredMiddleware.php";
     require_once "../controllers/SetWelcomeController.php";
+    require_once "../controllers/LoginController.php";
 
     $url = $_SERVER['REQUEST_URI'];
 
@@ -25,9 +26,6 @@
         $controller = new PortalRestController;
         $controller->process($id);
     }
-
-    
-
 
     $loader = new \Twig\Loader\FilesystemLoader('../views');
     $twig = new \Twig\Environment($loader, [
@@ -42,18 +40,20 @@
     $router = new Router($twig, $pdo);
     $router->add("/", MainController::class);
 
+    $router->add("/login", LoginController::class);
+
     $router->add("/set-welcome/", SetWelcomeController::class);
 
     $router->add("/portal-character/(?P<id>\d+)", ObjectController::class); 
     $router->add("/search", SearchController::class);
-    $router->add("/create", PortalObjectCreateController::class)
-        ->middleware(new LoginRequiredMiddleware());
-    $router->add("/types", PortalObjectTypesController::class)
-        ->middleware(new LoginRequiredMiddleware());
-    $router->add("/portal-character/(?P<id>\d+)/delete", PortalObjectDeleteController::class)
-        ->middleware(new LoginRequiredMiddleware());
-    $router->add("/portal-character/(?P<id>\d+)/edit", PortalObjectUpdateController::class)
-        ->middleware(new LoginRequiredMiddleware());
+    $router->add("/create", PortalObjectCreateController::class);
+        //->middleware(new LoginRequiredMiddleware());
+    $router->add("/types", PortalObjectTypesController::class);
+        //->middleware(new LoginRequiredMiddleware());
+    $router->add("/portal-character/(?P<id>\d+)/delete", PortalObjectDeleteController::class);
+        //->middleware(new LoginRequiredMiddleware());
+    $router->add("/portal-character/(?P<id>\d+)/edit", PortalObjectUpdateController::class);
+        //->middleware(new LoginRequiredMiddleware());
 
     $router->get_or_default(Controller404::class);
 ?>

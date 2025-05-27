@@ -1,6 +1,7 @@
 <?php
 
 class LoginRequiredMiddleware extends BaseMiddleware {
+
     public function apply(BaseController $controller, array $context)
     {
         // берем значения которые введет пользователь
@@ -14,7 +15,7 @@ class LoginRequiredMiddleware extends BaseMiddleware {
         $pw_from_db = $query->fetch(PDO::FETCH_ASSOC);
 
         if ($password !== $pw_from_db['password']) {
-            header('WWW-Authenticate: Basic realm="Portal objects"');
+            //header('WWW-Authenticate: Basic realm="Portal objects"');
             http_response_code(401); // ну и статус 401 -- Unauthorized, то есть неавторизован
             exit; // прерываем выполнение скрипта
         }
