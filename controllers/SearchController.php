@@ -40,6 +40,15 @@ EOL;
         $query->execute(); 
 
         $context['title_objects'] = $query->fetchAll();
+        $context['recent_type'] = $type;
+        $context['recent_title'] = $title;
+        $context['recent_info'] = $info;
+
+        $context['recent_info'] = [
+            'type' => $_GET['type'] ?? '',
+            'title' => $_GET['title'] ?? '',
+            'info' => $_GET['info'] ?? ''
+        ];
 
         return $context;
     }
