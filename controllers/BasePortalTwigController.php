@@ -17,9 +17,9 @@ class BasePortalTwigController extends TwigBaseController {
         if (empty($_SESSION['history']) || $_SESSION['history'][0] !== urldecode($_SERVER['REQUEST_URI'])) {
             array_unshift($_SESSION['history'], urldecode($_SERVER['REQUEST_URI']));
             $_SESSION['history'] = array_slice($_SESSION['history'], 0, 10);
-            $context["history"] = isset($_SESSION['history']) ? $_SESSION['history'] : "";
         }
         
+        $context["history"] = isset($_SESSION['history']) ? $_SESSION['history'] : "";
 
         return $context;
     }

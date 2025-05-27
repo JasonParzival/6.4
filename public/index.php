@@ -16,6 +16,7 @@
     require_once "../middlewares/LoginRequiredMiddleware.php";
     require_once "../controllers/SetWelcomeController.php";
     require_once "../controllers/LoginController.php";
+    require_once "../controllers/LogoutController.php";
 
     $url = $_SERVER['REQUEST_URI'];
 
@@ -41,6 +42,7 @@
     $router->add("/", MainController::class);
 
     $router->add("/login", LoginController::class);
+    $router->add("/logout", LogoutController::class);
 
     $router->add("/set-welcome/", SetWelcomeController::class);
 

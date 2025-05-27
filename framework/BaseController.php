@@ -22,9 +22,6 @@ abstract class BaseController {
         session_start();
 
         $currentUrl = $_SERVER['REQUEST_URI'];
-        if (!isset($_SESSION['history'])) {
-            $_SESSION['history'] = [];
-        }
 
         if (isset($_SESSION['is_logged']) && $_SESSION['is_logged'] && $currentUrl === '/login') {
             header("Location: /");
@@ -35,8 +32,6 @@ abstract class BaseController {
             header("Location: /login");
             exit;
         }
-
-        $context["history"] = isset($_SESSION['history']) ? $_SESSION['history'] : "";
 
         $method = $_SERVER['REQUEST_METHOD'];
         $context = $this->getContext(); // вызываю context тут
