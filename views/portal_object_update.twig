@@ -24,7 +24,7 @@
             <label class="form-label">Тип</label>
             <select class="form-control" name="type">
                 {% for type in types %}
-                    <option value="{{ type.name }}" {% if type.name == objectUpdate.type %}selected{% endif %}>
+                    <option value="{{ type.name }}" {% if type.name == objectUpdate.name %}selected{% endif %}>
                         {{ type.name|title }}
                     </option>
                 {% endfor %}

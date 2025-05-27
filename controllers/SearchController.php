@@ -24,11 +24,12 @@ EOL;
             $query->bindValue("info", $info);
         } else {
             $sql = <<<EOL
-SELECT id, title
-FROM portal_characters
-WHERE (:title = '' OR title like CONCAT('%', :title, '%'))
-        AND (type = :type)
-        AND (:info = '' OR info like CONCAT('%', :info, '%'))
+SELECT pc.id, pc.title
+FROM portal_characters pc
+LEFT JOIN portal_types pt ON pc.type = pt.id
+WHERE (:title = '' OR pc.title like CONCAT('%', :title, '%'))
+        AND (pt.name = :type)
+        AND (:info = '' OR pc.info like CONCAT('%', :info, '%'))
 EOL;
             $query = $this->pdo->prepare($sql);
             $query->bindValue("title", $title);
@@ -36,13 +37,9 @@ EOL;
             $query->bindValue("info", $info);
         }
 
-        
         $query->execute(); 
 
         $context['title_objects'] = $query->fetchAll();
-        $context['recent_type'] = $type;
-        $context['recent_title'] = $title;
-        $context['recent_info'] = $info;
 
         $context['recent_info'] = [
             'type' => $_GET['type'] ?? '',

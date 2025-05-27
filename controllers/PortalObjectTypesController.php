@@ -25,21 +25,14 @@ class PortalObjectTypesController extends BasePortalTwigController {
 
         $sql = <<<EOL
 INSERT INTO portal_types(name, image)
-VALUES(:name, :image_url) -- передаем переменную в запрос
+VALUES(:name, :image_url)
 EOL;
 
         $query = $this->pdo->prepare($sql);
         $query->bindValue("name", $name);
         $query->bindValue("image_url", $image_url);
-        /*$query->bindValue("description", $description);
-        $query->bindValue("type", $type);
-        $query->bindValue("info", $info);
-        $query->bindValue("image_url", $image_url); // подвязываем значение ссылки к переменной  image_url*/
+
         $query->execute();
-        
-        // а дальше как обычно
-        //$context['message'] = 'Вы успешно создали объект';
-        //$context['id'] = $this->pdo->lastInsertId();
 
         $this->get($context);
     }

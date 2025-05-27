@@ -10,7 +10,13 @@ class MainController extends BasePortalTwigController {
         $context = parent::getContext();
         
         if (isset($_GET['type'])) {
-            $query = $this->pdo->prepare("SELECT * FROM portal_characters WHERE type = :type");
+            $sql = <<<EOL
+SELECT pc.*, pt.name  
+FROM portal_characters pc 
+LEFT JOIN portal_types pt ON pc.type = pt.id 
+WHERE pt.name = :type
+EOL;
+            $query = $this->pdo->prepare($sql);
             $query->bindValue("type", $_GET['type']);
             $query->execute();
         }

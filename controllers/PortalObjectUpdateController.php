@@ -9,7 +9,10 @@ class PortalObjectUpdateController extends BasePortalTwigController {
         $id = $this->params['id']; // взяли id
 
         $sql =<<<EOL
-SELECT * FROM portal_characters WHERE id = :id
+SELECT pc.*, pt.name  
+FROM portal_characters pc 
+LEFT JOIN portal_types pt ON pc.type = pt.id
+WHERE pc.id = :id
 EOL;
         
         $query = $this->pdo->prepare($sql);
@@ -27,7 +30,21 @@ EOL;
         $id = $this->params['id'];
         $title = $_POST['title'];
         $description = $_POST['description'];
-        $type = $_POST['type'];
+        
+        $sql =<<<EOL
+SELECT id FROM portal_types WHERE name = :name
+EOL; // сформировали запрос
+        
+        // выполнили
+        $query = $this->pdo->prepare($sql);
+        $query->bindValue("name", $_POST['type']);
+        $query->execute();
+
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $typeId = $result['id'] ?? null;
+
+        $type = $typeId;
+
         $info = $_POST['info'];
 
         $sqlSelect = "SELECT image FROM portal_characters WHERE id = :id";

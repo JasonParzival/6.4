@@ -15,7 +15,20 @@ class PortalObjectCreateController extends BasePortalTwigController {
         // получаем значения полей с формы
         $title = $_POST['title'];
         $description = $_POST['description'];
-        $type = $_POST['type'];
+
+        $sql =<<<EOL
+SELECT id FROM portal_types WHERE name = :name
+EOL; // сформировали запрос
+        
+        // выполнили
+        $query = $this->pdo->prepare($sql);
+        $query->bindValue("name", $_POST['type']);
+        $query->execute();
+
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $typeId = $result['id'] ?? null;
+
+        $type = $typeId;
         $info = $_POST['info'];
 
         $tmp_name = $_FILES['image']['tmp_name'];
